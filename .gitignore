@@ -1,8 +1,11 @@
 # This .gitignore file should be placed at the root of your Unity project directory
 #
-# Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
+# Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
 #
 /[Ll]ibrary/
+!/[Ll]ibrary/com.unity.addressables/*
+!/[Ll]ibrary/AddressablesConfig.dat
+
 /[Tt]emp/
 /[Oo]bj/
 /[Bb]uild/
@@ -14,8 +17,8 @@
 # They also could contain extremely sensitive data
 /[Mm]emoryCaptures/
 
-# Recordings can get excessive in size
-/[Rr]ecordings/
+# Asset meta data should only be ignored when the corresponding asset is also ignored
+!/[Aa]ssets/**/*.meta
 
 # Uncomment this line if you wish to ignore the asset store tools plugin
 # /[Aa]ssets/AssetStoreTools*
@@ -25,6 +28,9 @@
 
 # Visual Studio cache directory
 .vs/
+
+# Rider cache dirrectory
+.idea/
 
 # Gradle cache directory
 .gradle/
@@ -46,6 +52,7 @@ ExportedObj/
 *.mdb
 *.opendb
 *.VC.db
+*.obb
 
 # Unity3D generated meta files
 *.pidb.meta
@@ -59,14 +66,43 @@ sysinfo.txt
 *.apk
 *.aab
 *.unitypackage
-*.app
 
 # Crashlytics generated file
 crashlytics-build.properties
 
 # Packed Addressables
-/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin*
+
 
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+
+# Local Framework Package
+
+/Packages/Vodafone_Framework
+/Packages/Vgers_Framework
+Assets/FrameworkSamples
+Assets/FrameworkSamples.meta
+/__Materiales/
+/ServerData/
+/Assets/Photon/
+/Assets/Photon.meta
+
+
+# Documentation
+
+/Documentation
+Assets/Doxygen
+Assets/Doxygen.meta
+.jira-project
+
+# Zenject files
+Assets/Plugins/Zenject/OptionalExtras/IntegrationTests/Installers/Editor/Resources/TestCompositeScriptableObjectInstallers/CircularReferenceCompositeInstaller
+
+# Mac OS meta files
+.DS_Store
+.AppleDB
+.Spotlight-V100
+.AppleDouble
+.LSOverride
