@@ -315,6 +315,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7522602735867559750}
   - component: {fileID: 1328760177440910842}
+  - component: {fileID: 523353349346866850}
   m_Layer: 0
   m_Name: Progress
   m_TagString: Untagged
@@ -355,7 +356,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0067d96a169d4b0ebe3a822d30e47462, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _barScroll: {fileID: 523353349346866850}
   _rootElementViews: {fileID: 4558134194087695164}
+--- !u!114 &523353349346866850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8159980986839186771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1289a7582bb94c5c8402e6965ece4046, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scrollRect: {fileID: 9185524359815578499}
 --- !u!1001 &5658016781751233762
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -448,6 +463,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3458531536410352405, guid: 33c2fa18a18354339bfc59a0095053fc, type: 3}
+      propertyPath: m_ChildScaleWidth
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3458531536410352405, guid: 33c2fa18a18354339bfc59a0095053fc, type: 3}
+      propertyPath: m_ChildScaleHeight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3458531536410352405, guid: 33c2fa18a18354339bfc59a0095053fc, type: 3}
+      propertyPath: m_ChildForceExpandWidth
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3458531536410352405, guid: 33c2fa18a18354339bfc59a0095053fc, type: 3}
+      propertyPath: m_ChildForceExpandHeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3601993452171718497, guid: 33c2fa18a18354339bfc59a0095053fc, type: 3}
+      propertyPath: m_MovementType
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -463,3 +498,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 2773794653847466146, guid: 33c2fa18a18354339bfc59a0095053fc, type: 3}
   m_PrefabInstance: {fileID: 5658016781751233762}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &9185524359815578499 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3601993452171718497, guid: 33c2fa18a18354339bfc59a0095053fc, type: 3}
+  m_PrefabInstance: {fileID: 5658016781751233762}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

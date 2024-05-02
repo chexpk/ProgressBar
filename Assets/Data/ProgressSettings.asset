@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb28b4afa11b4b67aa6d0b34d36d5945, type: 3}
   m_Name: ProgressSettings
   m_EditorClassIdentifier: 
-  IncreaseProgressButtonValue: 700
-  ProgressElementValue: 1000
-  IncreaseSpeed: 2
+  IncreaseProgressButtonValue: 57
+  ProgressElementValue: 100
+  IncreaseSpeed: 7

@@ -6,12 +6,12 @@ using Zenject;
 
 namespace DefaultNamespace.Progress
 {
-    public class ProgressCounter : MonoBehaviour, IProgressCounter, IProgressCounterPause, IProgressCounterIncrease
+    public class ProgressCounter : MonoBehaviour, IProgressCounter, IProgressCounterControl, IProgressCounterIncrease
     {
         public event Action<float> ProgressChanged;
         public float CurrentProgress { get; private set; } = 0;
-        public bool IsProgressWork { get; set; } = true;
 
+        private bool _isProgressWork = true;
         private float _askedProgress = 0;
         private ProgressSettings _progressSettings;
         private bool _isInProcess = false;
@@ -35,21 +35,21 @@ namespace DefaultNamespace.Progress
             }
         }
 
+        public void SetProgressWork(bool isWork)
+        {
+            _isProgressWork = isWork;
+        }
+
         private IEnumerator SmoothIncreaseProgress()
         {
             _isInProcess = true;
 
             while (CurrentProgress < _askedProgress)
             {
+                ProgressChanged?.Invoke(CurrentProgress);
                 var value = _progressSettings.IncreaseSpeed * Time.deltaTime;
                 CurrentProgress += value;
-                if (CurrentProgress < _askedProgress)
-                {
-                    ProgressChanged?.Invoke(CurrentProgress);
-                }
-
-                yield return new WaitUntil( (() => IsProgressWork));
-                yield return null;
+                yield return new WaitUntil( (() => _isProgressWork));
             }
 
             CurrentProgress = _askedProgress;

@@ -33,7 +33,7 @@ namespace DefaultNamespace.Installer
                 .To<ProgressElementsHandler>()
                 .AsSingle();
 
-            Container.Bind(typeof(IProgressCounter), typeof(IProgressCounterPause), typeof(IProgressCounterIncrease))
+            Container.Bind(typeof(IProgressCounter), typeof(IProgressCounterControl), typeof(IProgressCounterIncrease))
                 .To<ProgressCounter>()
                 .FromNewComponentOnNewGameObject()
                 .WithGameObjectName("ProgressCounter")

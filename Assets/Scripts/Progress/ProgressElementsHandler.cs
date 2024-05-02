@@ -5,18 +5,8 @@ namespace DefaultNamespace.Progress
 {
     public class ProgressElementsHandler : IProgressElementsHandler, IDisposable
     {
-        public ProgressElement[] ProgressElements
-        {
-            get
-            {
-                if (_progressElements == null)
-                {
-                    _progressElements = _progressElementsCreator.ProgressElements;
-                }
-
-                return _progressElements;
-            }
-        }
+        public event Action<int> ChangedElementIndex;
+        public ProgressElement[] ProgressElements => _progressElements ??= _progressElementsCreator.ProgressElements;
 
         private readonly IProgressElementsCreator _progressElementsCreator;
         private readonly IProgressCounter _progressCounter;
@@ -44,23 +34,36 @@ namespace DefaultNamespace.Progress
             SetLocalProgress(progress);
         }
 
-        //TODO проскок через несколько элекментов
         private void SetLocalProgress(float progress)
         {
             int index = (int)Mathf.Floor(progress);
             if (TrySetMaxProgress(index))
             {
-                _progressElements[_currentElementIndex].SetMaxProgress();
+                MaxProgress();
+                ChangedElementIndex?.Invoke(_progressElements.Length - 1);
                 return;
             }
 
             if (_currentElementIndex < index)
             {
-                _progressElements[_currentElementIndex].SetMaxProgress();
+                for (int i = _currentElementIndex; i < index; i++)
+                {
+                    _progressElements[i].SetMaxProgress();
+                }
+
                 _currentElementIndex = index;
+                ChangedElementIndex?.Invoke(_currentElementIndex);
             }
 
             _progressElements[_currentElementIndex].SetSelfProgress(progress - index);
+        }
+
+        private void MaxProgress()
+        {
+            for (int i = _currentElementIndex; i < _progressElements.Length; i++)
+            {
+                _progressElements[i].SetMaxProgress();
+            }
         }
 
         private bool TrySetMaxProgress(int index)
