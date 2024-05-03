@@ -48,7 +48,7 @@ namespace DefaultNamespace.Progress
             {
                 for (int i = _currentElementIndex; i < index; i++)
                 {
-                    _progressElements[i].SetMaxProgress();
+                    _progressElements[i].SetMaxProgress(DateTime.UtcNow);
                 }
 
                 _currentElementIndex = index;
@@ -62,7 +62,7 @@ namespace DefaultNamespace.Progress
         {
             for (int i = _currentElementIndex; i < _progressElements.Length; i++)
             {
-                _progressElements[i].SetMaxProgress();
+                _progressElements[i].SetMaxProgress(DateTime.UtcNow);
             }
         }
 

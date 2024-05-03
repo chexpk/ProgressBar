@@ -23,9 +23,10 @@ namespace DefaultNamespace.Progress
         private ProgressElement[] CreateProgressElements()
         {
             ProgressElement[] progressElements = new ProgressElement[8];
+            var currentTime = DateTime.UtcNow;
             for (int i = 0; i < 8; i++)
             {
-                progressElements[i] = new ProgressElement(false, false, 0, 0, i);
+                progressElements[i] = new ProgressElement(false, false, currentTime, 0, i);
             }
 
             return progressElements;

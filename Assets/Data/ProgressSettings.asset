@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IncreaseProgressButtonValue: 57
   ProgressElementValue: 100
-  IncreaseSpeed: 7
+  IncreaseSpeed: 1
