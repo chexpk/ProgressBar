@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace DefaultNamespace.Progress
@@ -6,11 +8,11 @@ namespace DefaultNamespace.Progress
     public class ProgressElementsHandler : IProgressElementsHandler, IDisposable
     {
         public event Action<int> ChangedElementIndex;
-        public ProgressElement[] ProgressElements => _progressElements ??= _progressElementsCreator.ProgressElements;
+        public IReadOnlyCollection<ProgressElement> ProgressElements => _progressElements ??= _progressElementsCreator.ProgressElements;
 
         private readonly IProgressElementsCreator _progressElementsCreator;
         private readonly IProgressCounter _progressCounter;
-        private ProgressElement[] _progressElements;
+        private IReadOnlyCollection<ProgressElement> _progressElements;
         private int _currentElementIndex = 0;
 
         //TODO need correct load and connect to CurrentProgress in _progressCounter
@@ -40,7 +42,7 @@ namespace DefaultNamespace.Progress
             if (TrySetMaxProgress(index))
             {
                 MaxProgress();
-                ChangedElementIndex?.Invoke(_progressElements.Length - 1);
+                ChangedElementIndex?.Invoke(_progressElements.Count - 1);
                 return;
             }
 
@@ -48,27 +50,27 @@ namespace DefaultNamespace.Progress
             {
                 for (int i = _currentElementIndex; i < index; i++)
                 {
-                    _progressElements[i].SetMaxProgress(DateTime.UtcNow);
+                    _progressElements.ElementAt(i).SetMaxProgress(DateTime.UtcNow);
                 }
 
                 _currentElementIndex = index;
                 ChangedElementIndex?.Invoke(_currentElementIndex);
             }
 
-            _progressElements[_currentElementIndex].SetSelfProgress(progress - index);
+            _progressElements.ElementAt(_currentElementIndex).SetSelfProgress(progress - index);
         }
 
         private void MaxProgress()
         {
-            for (int i = _currentElementIndex; i < _progressElements.Length; i++)
+            for (int i = _currentElementIndex; i < _progressElements.Count; i++)
             {
-                _progressElements[i].SetMaxProgress(DateTime.UtcNow);
+                _progressElements.ElementAt(i).SetMaxProgress(DateTime.UtcNow);
             }
         }
 
         private bool TrySetMaxProgress(int index)
         {
-            if(index < _progressElements.Length)
+            if(index < _progressElements.Count)
             {
                 return false;
             }
@@ -78,7 +80,7 @@ namespace DefaultNamespace.Progress
 
         public void Dispose()
         {
-            _progressCounter.ProgressChanged += OnProgressChanged;
+            _progressCounter.ProgressChanged -= OnProgressChanged;
         }
     }
 }

@@ -10,16 +10,16 @@ namespace DefaultNamespace.ProgressBar
 {
     public class ProgressElementView : MonoBehaviour
     {
-        public event Action<bool> AnimationPlay;
+        public event Action PlayStarted;
+        public event Action PlayStopped;
 
         [SerializeField] private Slider _slider;
-        [SerializeField] private float _duration = 2f;
         [SerializeField] private ElementAnimationHandler _animationHandler;
         [SerializeField] private TMP_Text _timerText;
-        [SerializeField] private GameObject _gameObject;
+        [SerializeField] private GameObject _receivedIcon;
+        [SerializeField] private float _duration = 2f;
 
         private Transform _parent;
-        //TODO I_ProgressElement
         private ProgressElement _progressElement;
         private bool _isInProcess = false;
 
@@ -50,13 +50,13 @@ namespace DefaultNamespace.ProgressBar
         {
             OnProgressChanged(1f);
             var task = StartAnimation();
-            AnimationPlay?.Invoke(true);
+            PlayStarted?.Invoke();
             await task;
             if (!task.Result)
             {
                 return;
             }
-            AnimationPlay?.Invoke(false);
+            PlayStopped?.Invoke();
 
             _timerText.gameObject.SetActive(true);
         }
@@ -71,7 +71,7 @@ namespace DefaultNamespace.ProgressBar
         private void OnReceived()
         {
             _timerText.gameObject.SetActive(false);
-            _gameObject.gameObject.SetActive(true);
+            _receivedIcon.gameObject.SetActive(true);
         }
 
         private void OnProgressChanged(float progress)

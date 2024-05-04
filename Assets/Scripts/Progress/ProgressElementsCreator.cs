@@ -1,10 +1,11 @@
 using System;
+using System.Collections.Generic;
 
 namespace DefaultNamespace.Progress
 {
     public class ProgressElementsCreator : IProgressElementsCreator
     {
-        public ProgressElement[] ProgressElements
+        public IReadOnlyCollection<ProgressElement> ProgressElements
         {
             get
             {
@@ -17,10 +18,10 @@ namespace DefaultNamespace.Progress
             }
         }
 
-        private ProgressElement[] _progressElements;
+        private IReadOnlyCollection<ProgressElement> _progressElements;
 
         //TODO check settings
-        private ProgressElement[] CreateProgressElements()
+        private IReadOnlyCollection<ProgressElement> CreateProgressElements()
         {
             ProgressElement[] progressElements = new ProgressElement[8];
             var currentTime = DateTime.UtcNow;

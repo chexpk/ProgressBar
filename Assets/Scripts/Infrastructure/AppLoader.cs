@@ -1,6 +1,8 @@
-using System;
+using Cysharp.Threading.Tasks;
+using DefaultNamespace.Progress;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Zenject;
 
 namespace Infrastructure
 {
@@ -8,9 +10,18 @@ namespace Infrastructure
     {
         [field: SerializeField] private string SecondSceneName { get; set; } = "MainMenu";
 
-        private void Start()
+        private IProgressElementsCreator _progressElementsCreator;
+
+        [Inject]
+        public void Construct(IProgressElementsCreator progressElementsCreator)
         {
-            SceneManager.LoadSceneAsync(SecondSceneName);
+            _progressElementsCreator = progressElementsCreator;
+        }
+
+        private async void Start()
+        {
+            var elements = _progressElementsCreator.ProgressElements;
+            await SceneManager.LoadSceneAsync(SecondSceneName);
         }
     }
 }

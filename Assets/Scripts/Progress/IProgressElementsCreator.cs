@@ -1,7 +1,9 @@
+using System.Collections.Generic;
+
 namespace DefaultNamespace.Progress
 {
     public interface IProgressElementsCreator
     {
-        ProgressElement[] ProgressElements { get; }
+        IReadOnlyCollection<ProgressElement> ProgressElements { get; }
     }
 }

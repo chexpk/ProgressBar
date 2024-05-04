@@ -795,7 +795,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _slider: {fileID: 6115732133451127680}
-  _duration: 2
   _animationHandler: {fileID: 683079438278421439}
   _timerText: {fileID: 2782876397527833677}
-  _gameObject: {fileID: 3352592485749664720}
+  _receivedIcon: {fileID: 3352592485749664720}
+  _duration: 2

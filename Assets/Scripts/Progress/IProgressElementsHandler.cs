@@ -1,10 +1,11 @@
 using System;
+using System.Collections.Generic;
 
 namespace DefaultNamespace.Progress
 {
     public interface IProgressElementsHandler
     {
-        ProgressElement[] ProgressElements { get; }
+        IReadOnlyCollection<ProgressElement> ProgressElements { get; }
         event Action<int> ChangedElementIndex;
     }
 }
