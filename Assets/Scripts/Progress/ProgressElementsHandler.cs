@@ -41,7 +41,7 @@ namespace DefaultNamespace.Progress
             int index = (int)Mathf.Floor(progress);
             if (TrySetMaxProgress(index))
             {
-                MaxProgress();
+                MaxElementProgressFrom(_currentElementIndex);
                 ChangedElementIndex?.Invoke(_progressElements.Count - 1);
                 return;
             }
@@ -50,7 +50,7 @@ namespace DefaultNamespace.Progress
             {
                 for (int i = _currentElementIndex; i < index; i++)
                 {
-                    _progressElements.ElementAt(i).SetMaxProgress(DateTime.UtcNow);
+                    SetMaxForElementByIndex(i);
                 }
 
                 _currentElementIndex = index;
@@ -60,11 +60,11 @@ namespace DefaultNamespace.Progress
             _progressElements.ElementAt(_currentElementIndex).SetSelfProgress(progress - index);
         }
 
-        private void MaxProgress()
+        private void MaxElementProgressFrom(int index)
         {
-            for (int i = _currentElementIndex; i < _progressElements.Count; i++)
+            for (int i = index; i < _progressElements.Count; i++)
             {
-                _progressElements.ElementAt(i).SetMaxProgress(DateTime.UtcNow);
+                SetMaxForElementByIndex(i);
             }
         }
 
@@ -76,6 +76,11 @@ namespace DefaultNamespace.Progress
             }
 
             return _isMaxProgress = true;
+        }
+
+        private void SetMaxForElementByIndex(int index)
+        {
+            _progressElements.ElementAt(index).SetMaxProgress(DateTime.UtcNow);
         }
 
         public void Dispose()

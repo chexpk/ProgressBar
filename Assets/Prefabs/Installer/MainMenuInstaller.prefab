@@ -47,3 +47,4 @@ MonoBehaviour:
   _hud: {fileID: 7192369999833239477, guid: 50a0ef8aa8f854496b501f5beace21f2, type: 3}
   _progressSettings: {fileID: 11400000, guid: b298514ae278940269a4664f4a3486ad, type: 2}
   _progressElementView: {fileID: 8805202703077096563, guid: 0a31a9c67e84c44a893910afdad47e01, type: 3}
+  _rewardView: {fileID: 3817124040096431138, guid: e9cd408c76e484d5fa70934fa94b27e8, type: 3}

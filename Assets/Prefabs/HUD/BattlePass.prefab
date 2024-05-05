@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 572446996826729556}
   m_Layer: 0
-  m_Name: Battle Pass
+  m_Name: BattlePass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -5,7 +5,7 @@ namespace DefaultNamespace.Progress
     public class ProgressElement
     {
         public event Action<float> SelfProgressChanged;
-        public event Action Achieved;
+        public event Action<ProgressElement> Achieved;
         public event Action<float> TimeReceivedChanged;
         public event Action Received;
 
@@ -37,7 +37,7 @@ namespace DefaultNamespace.Progress
             TimeOfAchieved = achievedUtcTime;
             SelfProgress = 1f;
             IsAchieved = true;
-            Achieved?.Invoke();
+            Achieved?.Invoke(this);
             StartReceiveTimer();
         }
 

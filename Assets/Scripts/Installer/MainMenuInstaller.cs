@@ -1,6 +1,7 @@
 using DefaultNamespace.Progress;
 using DefaultNamespace.Progress.Settings;
 using DefaultNamespace.ProgressBar;
+using DefaultNamespace.Reward;
 using UnityEngine;
 using Zenject;
 
@@ -11,6 +12,7 @@ namespace DefaultNamespace.Installer
         [SerializeField] private Hud _hud;
         [SerializeField] private ProgressSettings _progressSettings;
         [SerializeField] private ProgressElementView _progressElementView;
+        [SerializeField] private RewardView _rewardView;
 
         public override void InstallBindings()
         {
@@ -21,6 +23,7 @@ namespace DefaultNamespace.Installer
 
             ProgressInstaller();
             ProgressBarInstaller();
+            RewardInstaller();
         }
 
         private void ProgressInstaller()
@@ -45,6 +48,12 @@ namespace DefaultNamespace.Installer
         {
             Container.BindFactory<Transform, ProgressElement, ProgressElementView, ProgressElementView.Factory>()
                 .FromComponentInNewPrefab(_progressElementView);
+        }
+
+        private void RewardInstaller()
+        {
+            Container.BindFactory<Transform, ProgressElement, RewardView, RewardView.Factory>()
+                .FromComponentInNewPrefab(_rewardView);
         }
     }
 }

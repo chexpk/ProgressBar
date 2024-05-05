@@ -46,7 +46,7 @@ namespace DefaultNamespace.ProgressBar
             _slider.value = _progressElement.SelfProgress;
         }
 
-        private async void OnAchieved()
+        private async void OnAchieved(ProgressElement element)
         {
             OnProgressChanged(1f);
             var task = StartAnimation();
