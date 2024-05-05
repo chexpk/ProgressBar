@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using DefaultNamespace.Progress;
 using UnityEngine;
@@ -69,6 +70,16 @@ namespace DefaultNamespace.ProgressBar
 
             var isInprogress = _isAnimationActive == 0;
             _counterControl.SetProgressWork(isInprogress);
+        }
+
+        private void OnDisable()
+        {
+            _counterControl.SetProgressWork(false);
+        }
+
+        private void OnEnable()
+        {
+            _counterControl.SetProgressWork(true);
         }
 
         private void OnDestroy()

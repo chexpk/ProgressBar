@@ -58,6 +58,12 @@ namespace DefaultNamespace.ProgressBar
             }
             PlayStopped?.Invoke();
 
+            if (_progressElement.IsReceived)
+            {
+                return;
+            }
+
+            Debug.Log("_timerText.gameObject.SetActive(true)");
             _timerText.gameObject.SetActive(true);
         }
 
@@ -70,6 +76,7 @@ namespace DefaultNamespace.ProgressBar
 
         private void OnReceived()
         {
+            Debug.Log("_timerText.gameObject.SetActive(false)");
             _timerText.gameObject.SetActive(false);
             _receivedIcon.gameObject.SetActive(true);
         }

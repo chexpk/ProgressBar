@@ -57,6 +57,7 @@ namespace DefaultNamespace.Progress
                 return;
             }
 
+            IsReceived = true;
             Received?.Invoke();
         }
     }

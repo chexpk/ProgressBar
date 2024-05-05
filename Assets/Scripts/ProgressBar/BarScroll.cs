@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,15 +12,22 @@ namespace DefaultNamespace.ProgressBar
         private Coroutine _coroutine;
         private float _time = 0;
         private float _duration = 1;
+        private RectTransform _currentTarget;
 
         public void StartSmoothScrollTo(RectTransform child)
         {
+            if (!gameObject.activeInHierarchy)
+            {
+                return;
+            }
+
             _time = 0;
             if (_coroutine != null)
             {
                 StopCoroutine(_coroutine);
             }
 
+            _currentTarget = child;
             _coroutine = StartCoroutine(SmoothScroll(child));
         }
 
@@ -48,6 +56,16 @@ namespace DefaultNamespace.ProgressBar
             );
 
             return result;
+        }
+
+        private void OnEnable()
+        {
+            if (_currentTarget == null)
+            {
+                return;
+            }
+
+            StartSmoothScrollTo(_currentTarget);
         }
 
         private void OnDestroy()

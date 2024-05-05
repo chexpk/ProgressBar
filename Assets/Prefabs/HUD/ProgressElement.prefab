@@ -715,7 +715,7 @@ GameObject:
   - component: {fileID: 8815406801248405120}
   - component: {fileID: 8805202703077096563}
   m_Layer: 5
-  m_Name: Element
+  m_Name: ProgressElement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -9,6 +8,7 @@ namespace DefaultNamespace.ProgressBar
     {
         [SerializeField] private Animation _animation;
 
+        private bool _isPlay = false;
         private TaskCompletionSource<bool> _completionSource;
 
         private void Awake()
@@ -32,6 +32,22 @@ namespace DefaultNamespace.ProgressBar
         public void OnAnimationEnd()
         {
             _completionSource?.TrySetResult(true);
+        }
+
+        private void OnEnable()
+        {
+            if (_completionSource != null && !_completionSource.Task.IsCompleted)
+            {
+
+                foreach (AnimationState state in _animation)
+                {
+                    state.time = 0;
+                }
+                _animation.Play();
+                _animation.Sample();
+                _animation.Stop();
+                _completionSource?.TrySetResult(true);
+            }
         }
 
         private void OnDestroy()

@@ -12,7 +12,7 @@ namespace DefaultNamespace.Progress
         public float CurrentProgress { get; private set; } = 0;
 
         private ProgressSettings _progressSettings;
-        private bool _isProgressWork = true;
+        // private bool _isProgressWork = true;
         private float _askedProgress = 0;
         private bool _isInProcess = false;
 
@@ -46,7 +46,8 @@ namespace DefaultNamespace.Progress
 
         public void SetProgressWork(bool isWork)
         {
-            _isProgressWork = isWork;
+            // _isProgressWork = isWork;
+            _isInProcess = isWork;
         }
 
         private IEnumerator SmoothIncreaseProgress()
@@ -61,7 +62,7 @@ namespace DefaultNamespace.Progress
                 ProgressChanged?.Invoke(CurrentProgress);
                 var value = _progressSettings.IncreaseSpeed * Time.deltaTime;
                 CurrentProgress += value;
-                yield return new WaitUntil( () => _isProgressWork);
+                yield return new WaitUntil( () => _isInProcess);
             }
 
             CurrentProgress = _askedProgress;
