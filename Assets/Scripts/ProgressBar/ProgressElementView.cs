@@ -17,10 +17,9 @@ namespace DefaultNamespace.ProgressBar
         [SerializeField] private ElementAnimationHandler _animationHandler;
         [SerializeField] private TMP_Text _timerText;
         [SerializeField] private GameObject _receivedIcon;
-        [SerializeField] private float _duration = 2f;
 
-        private Transform _parent;
         private ProgressElement _progressElement;
+        private Transform _parent;
         private bool _isInProcess = false;
 
         [Inject]
@@ -39,6 +38,15 @@ namespace DefaultNamespace.ProgressBar
         {
             _slider.value = 0;
             transform.gameObject.transform.SetParent(_parent);
+            if (_progressElement.IsAchieved && !_progressElement.IsReceived)
+            {
+                _timerText.gameObject.SetActive(true);
+            }
+
+            if (_progressElement.IsReceived)
+            {
+                _receivedIcon.gameObject.SetActive(true);
+            }
         }
 
         private void Start()
@@ -63,7 +71,6 @@ namespace DefaultNamespace.ProgressBar
                 return;
             }
 
-            Debug.Log("_timerText.gameObject.SetActive(true)");
             _timerText.gameObject.SetActive(true);
         }
 
@@ -76,7 +83,6 @@ namespace DefaultNamespace.ProgressBar
 
         private void OnReceived()
         {
-            Debug.Log("_timerText.gameObject.SetActive(false)");
             _timerText.gameObject.SetActive(false);
             _receivedIcon.gameObject.SetActive(true);
         }

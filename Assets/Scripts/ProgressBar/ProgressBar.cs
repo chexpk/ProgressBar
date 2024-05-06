@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using DefaultNamespace.Progress;
 using UnityEngine;
@@ -10,9 +9,10 @@ namespace DefaultNamespace.ProgressBar
     {
         [SerializeField] private BarScroll _barScroll;
         [SerializeField] private Transform _rootElementViews;
+
+        private readonly List<ProgressElementView> _progressElementViews = new();
         private IProgressElementsHandler _progressElementsHandler;
         private ProgressElementView.Factory _progressElementFactory;
-        private readonly List<ProgressElementView> _progressElementViews = new();
         private IProgressCounterControl _counterControl;
 
         private int _isAnimationActive = 0;

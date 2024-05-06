@@ -1,29 +1,56 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DefaultNamespace.System;
 using UnityEngine;
+using Zenject;
 
 namespace DefaultNamespace.Progress
 {
-    public class ProgressElementsHandler : IProgressElementsHandler, IDisposable
+    public class ProgressElementsHandler : IProgressElementsHandler, IDisposable, ISaving, IInitializable
     {
         public event Action<int> ChangedElementIndex;
-        public IReadOnlyCollection<ProgressElement> ProgressElements => _progressElements ??= _progressElementsCreator.ProgressElements;
 
-        private readonly IProgressElementsCreator _progressElementsCreator;
+        public IReadOnlyCollection<ProgressElement> ProgressElements => _progressElements;
+
         private readonly IProgressCounter _progressCounter;
+        private readonly ISaver _saver;
         private IReadOnlyCollection<ProgressElement> _progressElements;
+        private ProgressElementsData _progressElementsData;
         private int _currentElementIndex = 0;
-
-        //TODO need correct load and connect to CurrentProgress in _progressCounter
         private bool _isMaxProgress = false;
 
-        public ProgressElementsHandler(IProgressElementsCreator progressElementsCreator, IProgressCounter progressCounter)
+        public ProgressElementsHandler(IProgressCounter progressCounter, ISaver saver)
         {
-            _progressElementsCreator = progressElementsCreator;
             _progressCounter = progressCounter;
+            _saver = saver;
 
             _progressCounter.ProgressChanged += OnProgressChanged;
+            _saver.RegisterToSave(this);
+        }
+
+        public void Initialize()
+        {
+            _progressElementsData = _saver.ProgressElementsData();
+            _progressElements = _progressElementsData.ProgressElements;
+
+            LaunchElementRewardTimers();
+        }
+
+        public void SelfSave(SaveData saveData)
+        {
+            List<ProgressElement> progressElements = new();
+            foreach (var element in _progressElements)
+            {
+                progressElements.Add(element);
+            }
+
+            saveData.ProgressElementsData = new ProgressElementsData()
+            {
+                ProgressElements = progressElements,
+                CurrnetElementIndex = _currentElementIndex,
+                IsMaxProgress = _isMaxProgress
+            };
         }
 
         private void OnProgressChanged(float progress)
@@ -80,12 +107,29 @@ namespace DefaultNamespace.Progress
 
         private void SetMaxForElementByIndex(int index)
         {
+            if (_progressElements.ElementAt(index).IsAchieved)
+            {
+                return;
+            }
+
             _progressElements.ElementAt(index).SetMaxProgress(DateTime.UtcNow);
+        }
+
+        private void LaunchElementRewardTimers()
+        {
+            foreach (var element in _progressElements)
+            {
+                if (element.IsAchieved && !element.IsReceived)
+                {
+                    element.StartReceiveTimer();
+                }
+            }
         }
 
         public void Dispose()
         {
             _progressCounter.ProgressChanged -= OnProgressChanged;
+            _saver.Unregister(this);
         }
     }
 }

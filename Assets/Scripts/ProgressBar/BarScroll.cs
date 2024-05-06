@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -8,11 +7,11 @@ namespace DefaultNamespace.ProgressBar
     public class BarScroll : MonoBehaviour
     {
         [SerializeField] private ScrollRect _scrollRect;
+        [SerializeField] private float _duration = 1f;
 
+        private RectTransform _currentTarget;
         private Coroutine _coroutine;
         private float _time = 0;
-        private float _duration = 1;
-        private RectTransform _currentTarget;
 
         public void StartSmoothScrollTo(RectTransform child)
         {

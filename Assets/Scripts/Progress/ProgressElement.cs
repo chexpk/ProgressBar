@@ -1,29 +1,34 @@
 using System;
+using UnityEngine;
 
 namespace DefaultNamespace.Progress
 {
-    public class ProgressElement
+    [Serializable]
+    public class ProgressElement : ISerializationCallbackReceiver
     {
         public event Action<float> SelfProgressChanged;
         public event Action<ProgressElement> Achieved;
         public event Action<float> TimeReceivedChanged;
         public event Action Received;
 
-        public bool IsAchieved { get; private set; }
-        public bool IsReceived { get; private set; }
         public DateTime TimeOfAchieved { get; private set; }
-        public float SelfProgress { get; private set; }
-        public int IconIndex { get; private set; }
-        public float TimeToReceived { get; private set; } = 0;
+        [field: SerializeField] public bool IsAchieved { get; private set; }
+        [field: SerializeField] public bool IsReceived { get; private set; }
+        [field: SerializeField] public float SelfProgress { get; private set; }
+        [field: SerializeField] public int IconIndex { get; private set; }
+        [field: SerializeField] public float TimeToReceived { get; private set; }
+        [field: SerializeField] public string _timeOfAchieved { get; private set; }
+        [field: SerializeField] public float DelayToReceived { get; private set; }
 
-
-        public ProgressElement(bool isAchieved, bool isReceived, DateTime timeOfAchieved, float selfProgress, int iconIndex)
+        public ProgressElement(bool isAchieved, bool isReceived, DateTime timeOfAchieved, float selfProgress, int iconIndex,
+            float delayToReceived)
         {
             IsAchieved = isAchieved;
             IsReceived = isReceived;
             TimeOfAchieved = timeOfAchieved;
             SelfProgress = selfProgress;
             IconIndex = iconIndex;
+            DelayToReceived = delayToReceived;
         }
 
         public void SetSelfProgress(float progress)
@@ -41,15 +46,15 @@ namespace DefaultNamespace.Progress
             StartReceiveTimer();
         }
 
-        public void SetTimeToReceived(float secondToReceived)
+        private void SetTimeToReceived(float secondToReceived)
         {
             TimeToReceived = secondToReceived;
             TimeReceivedChanged?.Invoke(TimeToReceived);
         }
 
-        private async void StartReceiveTimer()
+        public async void StartReceiveTimer()
         {
-            var timer = new ElementsReceiveTimer(this);
+            var timer = new ElementsReceiveTimer(TimeOfAchieved, DelayToReceived, SetTimeToReceived);
             var task = timer.Launch();
             await task;
             if (!task.Result)
@@ -59,6 +64,17 @@ namespace DefaultNamespace.Progress
 
             IsReceived = true;
             Received?.Invoke();
+        }
+
+        public void OnBeforeSerialize()
+        {
+            _timeOfAchieved = TimeOfAchieved.ToString("o");
+        }
+
+        public void OnAfterDeserialize()
+        {
+            DateTime.TryParse(_timeOfAchieved, out DateTime time);
+            TimeOfAchieved = time.ToUniversalTime();
         }
     }
 }

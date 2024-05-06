@@ -28,12 +28,12 @@ namespace DefaultNamespace.Installer
 
         private void ProgressInstaller()
         {
-            Container.Bind<IProgressElementsHandler>()
+            Container.Bind(typeof(IInitializable), typeof(IProgressElementsHandler))
                 .To<ProgressElementsHandler>()
                 .AsSingle();
 
             Container.Bind(typeof(IProgressCounter), typeof(IProgressCounterControl),
-                    typeof(IProgressCounterIncrease), typeof(ITickable))
+                    typeof(IProgressCounterIncrease), typeof(ITickable), typeof(IInitializable))
                 .To<ProgressCounter>()
                 // .FromNewComponentOnNewGameObject()
                 // .WithGameObjectName("ProgressCounter")

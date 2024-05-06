@@ -7,22 +7,22 @@ namespace DefaultNamespace.Progress
 {
     public class ElementsReceiveTimer
     {
-        private ProgressElement _progressElement;
-        private DateTime _achievedTime;
-
         private TaskCompletionSource<bool> _completionSource;
+        private readonly DateTime _achievedTime;
+        private float _delay;
+        private Action<float> _onTimeChanged;
         private float _timer = 0;
-        private float _delay = 5;
 
-        public ElementsReceiveTimer(ProgressElement progressElement)
+        public ElementsReceiveTimer(DateTime achievedTime, float delay, Action<float> onTimeChanged)
         {
-            _progressElement = progressElement;
+            _achievedTime = achievedTime;
+            _delay = delay;
+            _onTimeChanged = onTimeChanged;
         }
 
         public Task<bool> Launch()
         {
-            _achievedTime = _progressElement.TimeOfAchieved;
-            var diff = (float)(_achievedTime - DateTime.UtcNow).Seconds;
+            var diff = (int)((DateTime.UtcNow - _achievedTime).TotalSeconds);
             _delay -= diff;
             if (_delay < 0)
             {
@@ -55,7 +55,7 @@ namespace DefaultNamespace.Progress
 
             _timer = 0;
             _completionSource?.TrySetResult(true);
-            _progressElement = null;
+            _onTimeChanged = null;
         }
 
         private void SetLeftTime(float timer)
@@ -66,7 +66,7 @@ namespace DefaultNamespace.Progress
                 leftTime = 0;
             }
 
-            _progressElement.SetTimeToReceived(leftTime);
+            _onTimeChanged(leftTime);
         }
     }
 }

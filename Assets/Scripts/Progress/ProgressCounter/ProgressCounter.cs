@@ -1,26 +1,38 @@
 using System;
 using System.Collections;
 using DefaultNamespace.Progress.Settings;
+using DefaultNamespace.System;
 using UnityEngine;
 using Zenject;
 
 namespace DefaultNamespace.Progress
 {
-    public class ProgressCounter : ITickable, IProgressCounter, IProgressCounterControl, IProgressCounterIncrease, IDisposable
+    public class ProgressCounter : ITickable, IProgressCounter, IProgressCounterControl, IProgressCounterIncrease, IDisposable, ISaving, IInitializable
     {
         public event Action<float> ProgressChanged;
         public float CurrentProgress { get; private set; } = 0;
 
-        private ProgressSettings _progressSettings;
-        // private bool _isProgressWork = true;
+        private readonly ProgressSettings _progressSettings;
+        private readonly ISaver _saver;
+        private ProgressCounterData _progressCounterData;
+
         private float _askedProgress = 0;
         private bool _isInProcess = false;
 
         //TODO ask Save/Load
-        [Inject]
-        public void Construct(ProgressSettings progressSettings)
+        public ProgressCounter(ProgressSettings progressSettings, ISaver saver)
         {
             _progressSettings = progressSettings;
+            _saver = saver;
+
+            _saver.RegisterToSave(this);
+        }
+
+        public void Initialize()
+        {
+            _progressCounterData = _saver.ProgressCounterData();
+            _askedProgress = _progressCounterData.AskedProgress;
+            CurrentProgress = _progressCounterData.Progress;
         }
 
         public void Tick()
@@ -46,8 +58,15 @@ namespace DefaultNamespace.Progress
 
         public void SetProgressWork(bool isWork)
         {
-            // _isProgressWork = isWork;
             _isInProcess = isWork;
+        }
+
+        public void SelfSave(SaveData saveData)
+        {
+            saveData.ProgressCounterData = new ProgressCounterData()
+            {
+                AskedProgress = _askedProgress, Progress = CurrentProgress
+            };
         }
 
         private IEnumerator SmoothIncreaseProgress()
@@ -78,6 +97,7 @@ namespace DefaultNamespace.Progress
         public void Dispose()
         {
             _isInProcess = false;
+            _saver.Unregister(this);
         }
     }
 }

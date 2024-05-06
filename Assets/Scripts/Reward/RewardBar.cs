@@ -39,6 +39,7 @@ namespace DefaultNamespace.Reward
                     continue;
                 }
 
+
                 var rewardView = _rewardViewFactory.Create(_rootElementViews, element);
                 rewardView.gameObject.transform.SetParent(_rootElementViews);
                 _progressElementViews.Add(rewardView);
