@@ -26,18 +26,11 @@ namespace DefaultNamespace.System
             _savings.Remove(saving);
         }
 
-        public ProgressElementsData ProgressElementsData()
+        public SaveData LoadSaveData()
         {
             _currentSaveData ??= _saveSystem.Load();
 
-            return _currentSaveData.ProgressElementsData;
-        }
-
-        public ProgressCounterData ProgressCounterData()
-        {
-            _currentSaveData ??= _saveSystem.Load();
-
-            return _currentSaveData.ProgressCounterData;
+            return _currentSaveData;
         }
 
         private void SaveAll()
@@ -56,11 +49,6 @@ namespace DefaultNamespace.System
             _saveSystem.Save(_currentSaveData);
         }
 
-        private void Awake()
-        {
-            Debug.Log("Observer created");
-        }
-
         private void OnApplicationFocus(bool focus)
         {
             if (!focus) SaveAll();
@@ -75,10 +63,5 @@ namespace DefaultNamespace.System
         {
             SaveAll();
         }
-
-        // public ProgressElementsData ProgressElementsData()
-        // {
-        //
-        // }
     }
 }

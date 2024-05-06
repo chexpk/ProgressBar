@@ -18,25 +18,26 @@ namespace DefaultNamespace.System
         {
             if (!File.Exists(FilePath))
             {
-                Debug.Log("Create SaveData");
+                // Debug.Log("Create SaveData");
                 var saveData = CreateSaveData();
                 Save(saveData);
                 return saveData;
             }
 
             var json = "";
-            using (var reader = new StreamReader(FilePath))
-            {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    json += line;
-                }
-            }
+            json = File.ReadAllText(FilePath);
+            // using (var reader = new StreamReader(FilePath))
+            // {
+            //     string line;
+            //     while ((line = reader.ReadLine()) != null)
+            //     {
+            //         json += line;
+            //     }
+            // }
 
             if (string.IsNullOrEmpty(json))
             {
-                Debug.Log("Create SaveData");
+                // Debug.Log("Create SaveData");
                 var saveData = CreateSaveData();
                 Save(saveData);
                 return saveData;

@@ -5,7 +5,9 @@ namespace DefaultNamespace.System
         void RegisterToSave(ISaving saving);
         void Unregister(ISaving saving);
 
-        ProgressElementsData ProgressElementsData();
-        ProgressCounterData ProgressCounterData();
+        SaveData LoadSaveData();
+
+        // ProgressElementsData ProgressElementsData();
+        // ProgressCounterData ProgressCounterData();
     }
 }

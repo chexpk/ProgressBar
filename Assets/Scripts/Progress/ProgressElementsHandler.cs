@@ -10,13 +10,12 @@ namespace DefaultNamespace.Progress
     public class ProgressElementsHandler : IProgressElementsHandler, IDisposable, ISaving, IInitializable
     {
         public event Action<int> ChangedElementIndex;
-
         public IReadOnlyCollection<ProgressElement> ProgressElements => _progressElements;
 
         private readonly IProgressCounter _progressCounter;
         private readonly ISaver _saver;
         private IReadOnlyCollection<ProgressElement> _progressElements;
-        private ProgressElementsData _progressElementsData;
+        private SaveData _saveData;
         private int _currentElementIndex = 0;
         private bool _isMaxProgress = false;
 
@@ -31,9 +30,7 @@ namespace DefaultNamespace.Progress
 
         public void Initialize()
         {
-            _progressElementsData = _saver.ProgressElementsData();
-            _progressElements = _progressElementsData.ProgressElements;
-
+            LoadSaveData(_saver);
             LaunchElementRewardTimers();
         }
 
@@ -48,9 +45,17 @@ namespace DefaultNamespace.Progress
             saveData.ProgressElementsData = new ProgressElementsData()
             {
                 ProgressElements = progressElements,
-                CurrnetElementIndex = _currentElementIndex,
-                IsMaxProgress = _isMaxProgress
+                // CurrentElementIndex = _currentElementIndex,
+                // IsMaxProgress = _isMaxProgress
             };
+        }
+
+        private void LoadSaveData(ISaver saver)
+        {
+            _saveData = saver.LoadSaveData();
+            _progressElements = _saveData.ProgressElementsData.ProgressElements;
+            // _currentElementIndex = _saveData.ProgressElementsData.CurrentElementIndex;
+            // _isMaxProgress = _saveData.ProgressElementsData.IsMaxProgress;
         }
 
         private void OnProgressChanged(float progress)

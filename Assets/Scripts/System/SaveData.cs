@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DefaultNamespace.Progress;
+using UnityEngine.Serialization;
 
 namespace DefaultNamespace.System
 {
@@ -15,8 +16,6 @@ namespace DefaultNamespace.System
     public record ProgressElementsData
     {
         public List<ProgressElement> ProgressElements;
-        public int CurrnetElementIndex;
-        public bool IsMaxProgress;
     }
 
     [Serializable]

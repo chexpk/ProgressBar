@@ -14,7 +14,7 @@ namespace DefaultNamespace.Progress
 
         private readonly ProgressSettings _progressSettings;
         private readonly ISaver _saver;
-        private ProgressCounterData _progressCounterData;
+        private SaveData _saveData;
 
         private float _askedProgress = 0;
         private bool _isInProcess = false;
@@ -30,9 +30,14 @@ namespace DefaultNamespace.Progress
 
         public void Initialize()
         {
-            _progressCounterData = _saver.ProgressCounterData();
-            _askedProgress = _progressCounterData.AskedProgress;
-            CurrentProgress = _progressCounterData.Progress;
+            LoadSaveData(_saver);
+        }
+
+        private void LoadSaveData(ISaver saver)
+        {
+            _saveData = saver.LoadSaveData();
+            _askedProgress = _saveData.ProgressCounterData.AskedProgress;
+            CurrentProgress = _saveData.ProgressCounterData.Progress;
         }
 
         public void Tick()

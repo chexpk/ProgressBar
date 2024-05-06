@@ -78,7 +78,7 @@ namespace DefaultNamespace.ProgressBar
         {
             int minutes = Mathf.FloorToInt(leftTime / 60f);
             int seconds = Mathf.FloorToInt(leftTime - minutes * 60);
-            _timerText.text = $"{minutes:00}:{seconds:00}";
+            _timerText.text = $"{minutes:0}:{seconds:00}";
         }
 
         private void OnReceived()

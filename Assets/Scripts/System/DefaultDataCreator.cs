@@ -7,7 +7,6 @@ namespace DefaultNamespace.Progress
 {
     public class DefaultDataCreator : IDefaultDataCreator
     {
-
         private readonly DefaultDataSettings _defaultDataSettings;
 
         public DefaultDataCreator(DefaultDataSettings defaultDataSettings)
@@ -22,8 +21,8 @@ namespace DefaultNamespace.Progress
                 ProgressElementsData = new ProgressElementsData()
                 {
                     ProgressElements = CreateProgressElements(),
-                    CurrnetElementIndex = 0,
-                    IsMaxProgress = false
+                    // CurrentElementIndex = 0,
+                    // IsMaxProgress = false
                 },
 
                 ProgressCounterData = new ProgressCounterData()
