@@ -1,6 +1,6 @@
 # ProgressBar
 
-[//]: # (![Screenshot]&#40;path/to/screenshot.png&#41;)
+# ![Screenshot](https://github.com/chexpk/ProgressBar/blob/main/Assets/Content/Screenshot.png)
 
 Реализована сцена с двумя экранами:
 - экран MainMenu имеет список наград ожидающих получение и кнопку перехода к экрану ProgressBar;
