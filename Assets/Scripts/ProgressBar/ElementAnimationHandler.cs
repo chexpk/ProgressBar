@@ -37,11 +37,11 @@ namespace DefaultNamespace.ProgressBar
         {
             if (_completionSource != null && !_completionSource.Task.IsCompleted)
             {
-
                 foreach (AnimationState state in _animation)
                 {
                     state.time = 0;
                 }
+
                 _animation.Play();
                 _animation.Sample();
                 _animation.Stop();

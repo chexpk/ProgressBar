@@ -39,13 +39,6 @@ namespace DefaultNamespace.Progress
             _saver.Unregister(this);
         }
 
-        private void LoadSaveData()
-        {
-            _counterData = _saveSystem.Load<CounterData>(ProfileName);
-            _askedProgress = _counterData.AskedProgress;
-            _currentProgress = _counterData.Progress;
-        }
-
         public void Tick()
         {
             if (!_isInProcess)
@@ -80,6 +73,13 @@ namespace DefaultNamespace.Progress
             };
 
             _saveSystem.Save(ProfileName, dataToSave);
+        }
+
+        private void LoadSaveData()
+        {
+            _counterData = _saveSystem.Load<CounterData>(ProfileName);
+            _askedProgress = _counterData.AskedProgress;
+            _currentProgress = _counterData.Progress;
         }
 
         private IEnumerator SmoothIncreaseProgress()

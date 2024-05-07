@@ -17,9 +17,9 @@ namespace DefaultNamespace.Progress
         private readonly IProgressCounter _progressCounter;
         private readonly ISaver _saver;
         private readonly ISaveSystem _saveSystem;
+        private readonly TaskCompletionSource<bool> _loadCompletionSource;
         private ElementsData _elementsData;
         private IReadOnlyCollection<ProgressElement> _progressElements;
-        private readonly TaskCompletionSource<bool> _loadCompletionSource;
         private int _currentElementIndex = 0;
         private bool _isMaxProgress = false;
 
