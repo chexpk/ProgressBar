@@ -81,7 +81,7 @@ namespace DefaultNamespace.ProgressBar
             _timerText.text = $"{minutes:0}:{seconds:00}";
         }
 
-        private void OnReceived()
+        private void OnReceived(ProgressElement element)
         {
             _timerText.gameObject.SetActive(false);
             _receivedIcon.gameObject.SetActive(true);

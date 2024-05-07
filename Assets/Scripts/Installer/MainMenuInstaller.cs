@@ -35,8 +35,6 @@ namespace DefaultNamespace.Installer
             Container.Bind(typeof(IProgressCounter), typeof(IProgressCounterControl),
                     typeof(IProgressCounterIncrease), typeof(ITickable), typeof(IInitializable))
                 .To<ProgressCounter>()
-                // .FromNewComponentOnNewGameObject()
-                // .WithGameObjectName("ProgressCounter")
                 .AsSingle();
 
             Container.Bind<ProgressSettings>()
@@ -54,6 +52,10 @@ namespace DefaultNamespace.Installer
         {
             Container.BindFactory<Transform, ProgressElement, RewardView, RewardView.Factory>()
                 .FromComponentInNewPrefab(_rewardView);
+
+            Container.BindInterfacesTo<Rewarder>()
+                .AsSingle()
+                .NonLazy();
         }
     }
 }

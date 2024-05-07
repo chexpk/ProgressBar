@@ -33,14 +33,13 @@ namespace DefaultNamespace.Progress
             _saveSystem = saveSystem;
 
             _progressCounter.ProgressChanged += OnProgressChanged;
-            _saver.RegisterToSave(this);
             _loadCompletionSource = new TaskCompletionSource<bool>();
         }
 
         public void Initialize()
         {
+            _saver.RegisterToSave(this);
             LoadSaveData();
-            LaunchElementRewardTimers();
         }
 
         public Task<bool> LoadComplication()
@@ -131,17 +130,6 @@ namespace DefaultNamespace.Progress
             }
 
             _progressElements.ElementAt(index).SetMaxProgress(DateTime.UtcNow);
-        }
-
-        private void LaunchElementRewardTimers()
-        {
-            foreach (var element in _progressElements)
-            {
-                if (element.IsAchieved && !element.IsReceived)
-                {
-                    element.StartReceiveTimer();
-                }
-            }
         }
 
         public void Dispose()

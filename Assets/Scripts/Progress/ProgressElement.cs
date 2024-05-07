@@ -9,16 +9,16 @@ namespace DefaultNamespace.Progress
         public event Action<float> SelfProgressChanged;
         public event Action<ProgressElement> Achieved;
         public event Action<float> TimeReceivedChanged;
-        public event Action Received;
+        public event Action<ProgressElement> Received;
 
-        public DateTime TimeOfAchieved { get; private set; }
         [field: SerializeField] public bool IsAchieved { get; private set; }
         [field: SerializeField] public bool IsReceived { get; private set; }
         [field: SerializeField] public float SelfProgress { get; private set; }
         [field: SerializeField] public int IconIndex { get; private set; }
         [field: SerializeField] public float TimeToReceived { get; private set; }
-        [field: SerializeField] public string _timeOfAchieved { get; private set; }
+        [field: SerializeField] public string SerializedAchievedTime { get; private set; }
         [field: SerializeField] public float DelayToReceived { get; private set; }
+        public DateTime TimeOfAchieved { get; private set; }
 
         public ProgressElement(bool isAchieved, bool isReceived, DateTime timeOfAchieved, float selfProgress, int iconIndex,
             float delayToReceived)
@@ -43,37 +43,28 @@ namespace DefaultNamespace.Progress
             SelfProgress = 1f;
             IsAchieved = true;
             Achieved?.Invoke(this);
-            StartReceiveTimer();
         }
 
-        private void SetTimeToReceived(float secondToReceived)
+        public void SetTimeToReceived(float secondToReceived)
         {
             TimeToReceived = secondToReceived;
             TimeReceivedChanged?.Invoke(TimeToReceived);
         }
 
-        public async void StartReceiveTimer()
+        public void SetReceived()
         {
-            var timer = new ElementsReceiveTimer(TimeOfAchieved, DelayToReceived, SetTimeToReceived);
-            var task = timer.Launch();
-            await task;
-            if (!task.Result)
-            {
-                return;
-            }
-
             IsReceived = true;
-            Received?.Invoke();
+            Received?.Invoke(this);
         }
 
         public void OnBeforeSerialize()
         {
-            _timeOfAchieved = TimeOfAchieved.ToString("o");
+            SerializedAchievedTime = TimeOfAchieved.ToString("o");
         }
 
         public void OnAfterDeserialize()
         {
-            DateTime.TryParse(_timeOfAchieved, out DateTime time);
+            DateTime.TryParse(SerializedAchievedTime, out DateTime time);
             TimeOfAchieved = time.ToUniversalTime();
         }
     }

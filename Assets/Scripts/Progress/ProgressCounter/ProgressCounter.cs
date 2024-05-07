@@ -25,12 +25,11 @@ namespace DefaultNamespace.Progress
             _progressSettings = progressSettings;
             _saver = saver;
             _saveSystem = saveSystem;
-
-            _saver.RegisterToSave(this);
         }
 
         public void Initialize()
         {
+            _saver.RegisterToSave(this);
             LoadSaveData();
         }
 

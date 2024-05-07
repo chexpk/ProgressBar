@@ -7,20 +7,22 @@ namespace DefaultNamespace.Progress
 {
     public class ElementsReceiveTimer
     {
-        private TaskCompletionSource<bool> _completionSource;
+        private UniTaskCompletionSource<bool> _utcs;
         private readonly DateTime _achievedTime;
         private float _delay;
         private Action<float> _onTimeChanged;
+        private Action _onTimeEnd;
         private float _timer = 0;
 
-        public ElementsReceiveTimer(DateTime achievedTime, float delay, Action<float> onTimeChanged)
+        public ElementsReceiveTimer(DateTime achievedTime, float delay, Action<float> onTimeChanged, Action onTimeEnd)
         {
             _achievedTime = achievedTime;
             _delay = delay;
             _onTimeChanged = onTimeChanged;
+            _onTimeEnd = onTimeEnd;
         }
 
-        public Task<bool> Launch()
+        public async UniTaskVoid Launch()
         {
             var diff = (int)((DateTime.UtcNow - _achievedTime).TotalSeconds);
             _delay -= diff;
@@ -29,23 +31,25 @@ namespace DefaultNamespace.Progress
                 _delay = 0;
             }
 
-            return LaunchTimer();
-        }
-
-        private Task<bool> LaunchTimer()
-        {
-            if (_completionSource != null && !_completionSource.Task.IsCanceled)
+            bool result = await LaunchTimer();
+            if (!result)
             {
-                return _completionSource.Task;
+                Debug.Log("Timer not finished");
+                return;
             }
 
-            _completionSource = new TaskCompletionSource<bool>();
-            Timer();
-            return _completionSource.Task;
+            _onTimeEnd?.Invoke();
+            _onTimeEnd = null;
         }
 
-        private async UniTaskVoid Timer()
+        private async UniTask<bool> LaunchTimer()
         {
+            if (_utcs != null && !_utcs.Task.Status.IsCompleted())
+            {
+                return await _utcs.Task;
+            }
+
+            _utcs = new UniTaskCompletionSource<bool>();
             while (_timer < _delay)
             {
                 _timer += Time.deltaTime;
@@ -54,8 +58,9 @@ namespace DefaultNamespace.Progress
             }
 
             _timer = 0;
-            _completionSource?.TrySetResult(true);
             _onTimeChanged = null;
+            _utcs?.TrySetResult(true);
+            return true;
         }
 
         private void SetLeftTime(float timer)
@@ -66,7 +71,7 @@ namespace DefaultNamespace.Progress
                 leftTime = 0;
             }
 
-            _onTimeChanged(leftTime);
+            _onTimeChanged?.Invoke(leftTime);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace DefaultNamespace.Reward
             _element.TimeReceivedChanged += OnTimeChanged;
         }
 
-        private void OnReceived()
+        private void OnReceived(ProgressElement element)
         {
             Received?.Invoke(this);
         }
