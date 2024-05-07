@@ -52,7 +52,7 @@ namespace DefaultNamespace.Progress
             var currentTime = DateTime.UtcNow;
             for (int i = 0; i < _defaultDataSettings.CountOfProgressElements; i++)
             {
-                progressElements[i] = new ProgressElement(false, false, currentTime, 0, i, _defaultDataSettings.DelayToReceived);
+                progressElements[i] = new ProgressElement(false, false, currentTime, 0, _defaultDataSettings.DelayToReceived);
             }
 
             return progressElements.ToList();

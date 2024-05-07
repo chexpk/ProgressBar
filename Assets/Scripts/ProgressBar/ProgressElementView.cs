@@ -20,7 +20,6 @@ namespace DefaultNamespace.ProgressBar
 
         private ProgressElement _progressElement;
         private Transform _parent;
-        private bool _isInProcess = false;
 
         [Inject]
         public void Construct(Transform parent, ProgressElement progressElement)

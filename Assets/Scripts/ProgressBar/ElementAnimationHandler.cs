@@ -8,7 +8,6 @@ namespace DefaultNamespace.ProgressBar
     {
         [SerializeField] private Animation _animation;
 
-        private bool _isPlay = false;
         private TaskCompletionSource<bool> _completionSource;
 
         private void Awake()

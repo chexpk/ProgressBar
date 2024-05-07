@@ -13,14 +13,13 @@ namespace DefaultNamespace.ProgressBar
         private readonly List<ProgressElementView> _progressElementViews = new();
         private IProgressElementsHandler _progressElementsHandler;
         private ProgressElementView.Factory _progressElementFactory;
-        private IProgressCounterControl _counterControl;
-
+        private IProgressCounter _counterControl;
         private int _isAnimationActive = 0;
 
         [Inject]
         public void  Construct(IProgressElementsHandler progressElementsHandler,
             ProgressElementView.Factory progressElementFactory,
-            IProgressCounterControl counterControl)
+            IProgressCounter counterControl)
         {
             _progressElementsHandler = progressElementsHandler;
             _progressElementFactory = progressElementFactory;

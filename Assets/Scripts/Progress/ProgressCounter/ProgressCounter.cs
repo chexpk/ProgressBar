@@ -7,16 +7,16 @@ using Zenject;
 
 namespace DefaultNamespace.Progress
 {
-    public class ProgressCounter : ITickable, IProgressCounter, IProgressCounterControl, IProgressCounterIncrease, IDisposable, ISaving, IInitializable
+    public class ProgressCounter : ITickable, IProgressCounter, IProgressCounterIncrease, ISaving, IInitializable, IDisposable
     {
         private const string ProfileName = "CounterData";
         public event Action<float> ProgressChanged;
-        public float CurrentProgress { get; private set; } = 0;
 
         private readonly ProgressSettings _progressSettings;
         private readonly ISaver _saver;
         private readonly ISaveSystem _saveSystem;
         private CounterData _counterData;
+        private float _currentProgress = 0;
         private float _askedProgress = 0;
         private bool _isInProcess = false;
 
@@ -33,11 +33,17 @@ namespace DefaultNamespace.Progress
             LoadSaveData();
         }
 
+        public void Dispose()
+        {
+            _isInProcess = false;
+            _saver.Unregister(this);
+        }
+
         private void LoadSaveData()
         {
             _counterData = _saveSystem.Load<CounterData>(ProfileName);
             _askedProgress = _counterData.AskedProgress;
-            CurrentProgress = _counterData.Progress;
+            _currentProgress = _counterData.Progress;
         }
 
         public void Tick()
@@ -70,7 +76,7 @@ namespace DefaultNamespace.Progress
         {
             CounterData dataToSave = new CounterData()
             {
-                AskedProgress = _askedProgress, Progress = CurrentProgress
+                AskedProgress = _askedProgress, Progress = _currentProgress
             };
 
             _saveSystem.Save(ProfileName, dataToSave);
@@ -83,28 +89,22 @@ namespace DefaultNamespace.Progress
                 yield break;
             }
 
-            while (CurrentProgress < _askedProgress)
+            while (_currentProgress < _askedProgress)
             {
-                ProgressChanged?.Invoke(CurrentProgress);
+                ProgressChanged?.Invoke(_currentProgress);
                 var value = _progressSettings.IncreaseSpeed * Time.deltaTime;
-                CurrentProgress += value;
+                _currentProgress += value;
                 yield return new WaitUntil( () => _isInProcess);
             }
 
-            CurrentProgress = _askedProgress;
-            ProgressChanged?.Invoke(CurrentProgress);
+            _currentProgress = _askedProgress;
+            ProgressChanged?.Invoke(_currentProgress);
             _isInProcess = false;
         }
 
         private float NormalisedProgress()
         {
             return _progressSettings.IncreaseProgressButtonValue / _progressSettings.ProgressElementValue;
-        }
-
-        public void Dispose()
-        {
-            _isInProcess = false;
-            _saver.Unregister(this);
         }
     }
 }

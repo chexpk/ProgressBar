@@ -32,8 +32,8 @@ namespace DefaultNamespace.Installer
                 .To<ProgressElementsHandler>()
                 .AsSingle();
 
-            Container.Bind(typeof(IProgressCounter), typeof(IProgressCounterControl),
-                    typeof(IProgressCounterIncrease), typeof(ITickable), typeof(IInitializable))
+            Container.Bind(typeof(IProgressCounter), typeof(IProgressCounterIncrease),
+                    typeof(ITickable), typeof(IInitializable))
                 .To<ProgressCounter>()
                 .AsSingle();
 

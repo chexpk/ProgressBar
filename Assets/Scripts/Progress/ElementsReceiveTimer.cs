@@ -34,7 +34,7 @@ namespace DefaultNamespace.Progress
             bool result = await LaunchTimer();
             if (!result)
             {
-                Debug.Log("Timer not finished");
+                Debug.LogAssertion("Timer not finished");
                 return;
             }
 

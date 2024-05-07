@@ -14,20 +14,18 @@ namespace DefaultNamespace.Progress
         [field: SerializeField] public bool IsAchieved { get; private set; }
         [field: SerializeField] public bool IsReceived { get; private set; }
         [field: SerializeField] public float SelfProgress { get; private set; }
-        [field: SerializeField] public int IconIndex { get; private set; }
         [field: SerializeField] public float TimeToReceived { get; private set; }
         [field: SerializeField] public string SerializedAchievedTime { get; private set; }
         [field: SerializeField] public float DelayToReceived { get; private set; }
         public DateTime TimeOfAchieved { get; private set; }
 
-        public ProgressElement(bool isAchieved, bool isReceived, DateTime timeOfAchieved, float selfProgress, int iconIndex,
+        public ProgressElement(bool isAchieved, bool isReceived, DateTime timeOfAchieved, float selfProgress,
             float delayToReceived)
         {
             IsAchieved = isAchieved;
             IsReceived = isReceived;
             TimeOfAchieved = timeOfAchieved;
             SelfProgress = selfProgress;
-            IconIndex = iconIndex;
             DelayToReceived = delayToReceived;
         }
 
