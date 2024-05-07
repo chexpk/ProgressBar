@@ -14,21 +14,35 @@ namespace DefaultNamespace.Progress
             _defaultDataSettings = defaultDataSettings;
         }
 
-        public SaveData DefaultSaveData()
+        public T CreateDefault<T>() where T : Data, new()
         {
-            return new SaveData()
+            if (typeof(T) == typeof(ElementsData))
             {
-                ProgressElementsData = new ProgressElementsData()
-                {
-                    ProgressElements = CreateProgressElements(),
-                    // CurrentElementIndex = 0,
-                    // IsMaxProgress = false
-                },
+                return CreateElementsData() as T;
+            }
 
-                ProgressCounterData = new ProgressCounterData()
-                {
-                    AskedProgress = 0, Progress = 0,
-                }
+            if (typeof(T) == typeof(CounterData))
+            {
+                return CreateCounterData() as T;
+            }
+
+            return default;
+        }
+
+        private ElementsData CreateElementsData()
+        {
+            return new ElementsData()
+            {
+                ProgressElements = CreateProgressElements()
+            };
+        }
+
+        private CounterData CreateCounterData()
+        {
+            return new CounterData()
+            {
+                Progress = 0,
+                AskedProgress = 0
             };
         }
 

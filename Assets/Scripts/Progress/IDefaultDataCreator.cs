@@ -4,6 +4,6 @@ namespace DefaultNamespace.Progress
 {
     public interface IDefaultDataCreator
     {
-        SaveData DefaultSaveData();
+        public T CreateDefault<T>() where T : Data, new();
     }
 }

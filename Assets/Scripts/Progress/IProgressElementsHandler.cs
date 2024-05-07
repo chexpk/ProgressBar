@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DefaultNamespace.Progress
 {
@@ -7,5 +8,6 @@ namespace DefaultNamespace.Progress
     {
         IReadOnlyCollection<ProgressElement> ProgressElements { get; }
         event Action<int> ChangedElementIndex;
+        Task<bool> LoadComplication();
     }
 }

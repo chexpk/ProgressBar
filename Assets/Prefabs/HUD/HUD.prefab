@@ -280,26 +280,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 8250819471366111973}
     m_Modifications:
-    - target: {fileID: 1804892184915346875, guid: 28be43911e6d043ca8ea36bdecadc18e, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 0ad9d874709a942a58e1a1d0879a2f4d, type: 3}
-    - target: {fileID: 1804892184915346876, guid: 28be43911e6d043ca8ea36bdecadc18e, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0.9825
-      objectReference: {fileID: 0}
-    - target: {fileID: 1804892184915346876, guid: 28be43911e6d043ca8ea36bdecadc18e, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0.01875
-      objectReference: {fileID: 0}
-    - target: {fileID: 1804892184915346876, guid: 28be43911e6d043ca8ea36bdecadc18e, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1804892184915346876, guid: 28be43911e6d043ca8ea36bdecadc18e, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2243876633801419084, guid: 28be43911e6d043ca8ea36bdecadc18e, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -307,10 +287,6 @@ PrefabInstance:
     - target: {fileID: 2243876633801419084, guid: 28be43911e6d043ca8ea36bdecadc18e, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3264604061604867090, guid: 28be43911e6d043ca8ea36bdecadc18e, type: 3}
-      propertyPath: m_fontSize
-      value: 72
       objectReference: {fileID: 0}
     - target: {fileID: 3283209604047254370, guid: 28be43911e6d043ca8ea36bdecadc18e, type: 3}
       propertyPath: m_Name
@@ -514,10 +490,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: BattlePass
       objectReference: {fileID: 0}
-    - target: {fileID: 8153495829313828524, guid: 34fc9c1431ab34bf5b5b2c1aefc3bf59, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: be1a364fef1664fd3b44cda4e4bd1bac, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

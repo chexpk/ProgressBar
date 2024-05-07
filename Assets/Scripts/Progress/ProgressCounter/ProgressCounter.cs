@@ -9,35 +9,36 @@ namespace DefaultNamespace.Progress
 {
     public class ProgressCounter : ITickable, IProgressCounter, IProgressCounterControl, IProgressCounterIncrease, IDisposable, ISaving, IInitializable
     {
+        private const string ProfileName = "CounterData";
         public event Action<float> ProgressChanged;
         public float CurrentProgress { get; private set; } = 0;
 
         private readonly ProgressSettings _progressSettings;
         private readonly ISaver _saver;
-        private SaveData _saveData;
-
+        private readonly ISaveSystem _saveSystem;
+        private CounterData _counterData;
         private float _askedProgress = 0;
         private bool _isInProcess = false;
 
-        //TODO ask Save/Load
-        public ProgressCounter(ProgressSettings progressSettings, ISaver saver)
+        public ProgressCounter(ProgressSettings progressSettings, ISaver saver, ISaveSystem saveSystem)
         {
             _progressSettings = progressSettings;
             _saver = saver;
+            _saveSystem = saveSystem;
 
             _saver.RegisterToSave(this);
         }
 
         public void Initialize()
         {
-            LoadSaveData(_saver);
+            LoadSaveData();
         }
 
-        private void LoadSaveData(ISaver saver)
+        private void LoadSaveData()
         {
-            _saveData = saver.LoadSaveData();
-            _askedProgress = _saveData.ProgressCounterData.AskedProgress;
-            CurrentProgress = _saveData.ProgressCounterData.Progress;
+            _counterData = _saveSystem.Load<CounterData>(ProfileName);
+            _askedProgress = _counterData.AskedProgress;
+            CurrentProgress = _counterData.Progress;
         }
 
         public void Tick()
@@ -66,12 +67,14 @@ namespace DefaultNamespace.Progress
             _isInProcess = isWork;
         }
 
-        public void SelfSave(SaveData saveData)
+        public void SelfSave()
         {
-            saveData.ProgressCounterData = new ProgressCounterData()
+            CounterData dataToSave = new CounterData()
             {
                 AskedProgress = _askedProgress, Progress = CurrentProgress
             };
+
+            _saveSystem.Save(ProfileName, dataToSave);
         }
 
         private IEnumerator SmoothIncreaseProgress()

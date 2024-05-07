@@ -23,7 +23,19 @@ namespace DefaultNamespace.Reward
 
         private void Start()
         {
+            Init();
+        }
+
+        private async void Init()
+        {
             _progressElementViews.Clear();
+
+            var task = _progressElementsHandler.LoadComplication();
+            await task;
+            if (!task.IsCompleted)
+            {
+                return;
+            }
 
             foreach (var element in _progressElementsHandler.ProgressElements)
             {
